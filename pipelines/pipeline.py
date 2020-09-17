@@ -1,5 +1,4 @@
 import requests
-import argparse
 import logging
 from datetime import datetime
 
@@ -43,15 +42,16 @@ def map_country_to_ip(element, ip_map):
     return [ip_map[ip], element[1]]
 
 
-def run(argv=None):
+def run():
     pipeline_options = PipelineOptions()
 
     with beam.Pipeline(options=pipeline_options) as p:
-        options = pipeline_options.view_as(CustomOptions)
+        custom_options = pipeline_options.view_as(CustomOptions)
 
         lines = (
             p
-            | "ReadFile" >> beam.io.ReadFromText(options.input, skip_header_lines=1)
+            | "ReadFile"
+            >> beam.io.ReadFromText(custom_options.input, skip_header_lines=1)
             | "ParseLines" >> beam.Map(parse_lines)
         )
 
@@ -67,7 +67,7 @@ def run(argv=None):
         )
 
         result | "WriteOutput" >> beam.io.WriteToText(
-            options.output, file_name_suffix=".csv"
+            custom_options.output, file_name_suffix=".csv"
         )
 
 
