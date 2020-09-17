@@ -7,6 +7,13 @@ import apache_beam as beam
 from apache_beam.options.pipeline_options import PipelineOptions
 
 
+class CustomOptions(PipelineOptions):
+    @classmethod
+    def _add_argparse_args(cls, parser):
+        parser.add_value_provider_argument("--input")
+        parser.add_value_provider_argument("--output")
+
+
 def parse_lines(element):
     return element.split(",")
 
@@ -37,17 +44,14 @@ def map_country_to_ip(element, ip_map):
 
 
 def run(argv=None):
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--input")
-    parser.add_argument("--output")
-    known_args, pipeline_args = parser.parse_known_args(argv)
-
-    pipeline_options = PipelineOptions(pipeline_args)
+    pipeline_options = PipelineOptions()
 
     with beam.Pipeline(options=pipeline_options) as p:
+        options = pipeline_options.view_as(CustomOptions)
+
         lines = (
             p
-            | "ReadFile" >> beam.io.ReadFromText(known_args.input, skip_header_lines=1)
+            | "ReadFile" >> beam.io.ReadFromText(options.input, skip_header_lines=1)
             | "ParseLines" >> beam.Map(parse_lines)
         )
 
@@ -63,7 +67,7 @@ def run(argv=None):
         )
 
         result | "WriteOutput" >> beam.io.WriteToText(
-            known_args.output, file_name_suffix=".csv"
+            options.output, file_name_suffix=".csv"
         )
 
 
