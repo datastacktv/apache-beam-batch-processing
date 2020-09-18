@@ -12,5 +12,27 @@ conda create -n apache-beam-tutorial python=3.7
 conda activate apache-beam-tutorial
 
 # install Apache Beam
-pip install apache-beam
+pip install apache-beam[gcp]
+```
+## Run pipeline locally
+
+```bash
+python pipeline.py \
+--input data.csv \
+--output output \
+--runner DirectRunner
+```
+
+# Deploy pipeline to Google Cloud Dataflow
+
+```bash
+python pipeline.py \
+--input gs://<BUCKET>/data.csv \
+--output gs://<BUCKET>/output \
+--runner DataflowRunner \
+--project <PROJECT> \
+--staging_location gs://<BUCKET>/staging \
+--temp_location gs://<BUCKET>/temp \
+--region us-central1 \
+--save_main_session
 ```
