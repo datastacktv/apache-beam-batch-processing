@@ -1,5 +1,17 @@
 # Batch Processing with Apache Beam in Python
 
+[![Twitter](https://img.shields.io/badge/-Twitter-1DA1F2)](https://twitter.com/datastacktv)
+[![YouTube](https://img.shields.io/badge/-YouTube-FF0000)](https://www.youtube.com/channel/UCQSbqkMlvf_J949HDWxOt7Q)
+[![Website](https://img.shields.io/badge/-Website-565CD8)](https://datastack.tv/)
+
+This repository holds the source code for the [Batch Processing with Apache Beam](https://datastack.tv/apache-beam-course.html) online mini-course by [@alexandraabbas](https://github.com/alexandraabbas).
+
+In this course we use Apache Beam in Python to build the following batch data processing pipeline.
+
+![apache beam pipeline infographic](img/pipeline.png)
+
+Subscribe to [datastack.tv](https://datastack.tv/pricing.html) in order to take this course. [Browse our courses here!](https://datastack.tv/courses.html)
+
 ## Set up your local environment
 
 Before installing Apache Beam, create and activate a virtual environment. Beam Python SDK supports Python 2.7, 3.5, 3.6, and 3.7. I recommend you create a virtual environment with Python 3+.
